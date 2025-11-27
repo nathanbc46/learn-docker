@@ -2,8 +2,10 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { prisma } from './lib/prisma'
 import { z } from 'zod'
+import { cors } from 'hono/cors'
 
 const app = new Hono()
+app.use('*', cors())
 
 const zodProduct = z.object({
   name: z.string(),
