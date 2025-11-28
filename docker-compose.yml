@@ -1,4 +1,21 @@
 services:
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      DATABASE_URL: postgresql://postgres:secret@db:5432/learn-docker?schema=public
+    ports:
+      - "3000:3000"
   db:
     image: postgres:17-alpine
     environment:
@@ -8,7 +25,7 @@ services:
     volumes:
       - pg-data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5432:5432"
 
 volumes:
   pg-data:
