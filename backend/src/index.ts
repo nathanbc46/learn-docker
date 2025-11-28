@@ -3,14 +3,28 @@ import { Hono } from 'hono'
 import { prisma } from './lib/prisma'
 import { z } from 'zod'
 import { cors } from 'hono/cors'
+import { say } from 'cowsay'
 
 const app = new Hono()
-app.use('*', cors())
+// app.use('*', cors())
 
 const zodProduct = z.object({
   name: z.string(),
   price: z.number(),
   description: z.string().optional()
+})
+
+app.get('/cow', (c) => {
+  const message = say({
+    text: 'Hello from Hono and Prisma!',
+    e: 'oo',
+    T: 'U '
+  })
+  return c.text(message)
+})
+
+app.get('/version', (c) => {
+  return c.json({version : '1.0.2'})
 })
 
 app.get('/', (c) => {

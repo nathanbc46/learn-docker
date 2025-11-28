@@ -16,13 +16,15 @@ const input = ref({
   price: 0
 })
 
+const backendUrl = '/api/products'
+
 async function fetchProducts() {
-  const { data } = await fetch('http://localhost:3000/products').then(res => res.json()) as { data: Product[] }
+  const { data } = await fetch(backendUrl).then(res => res.json()) as { data: Product[] }
   products.value = data
 }
 
 async function createProduct(name: string, price: number) {
-  await fetch('http://localhost:3000/products', {
+  await fetch(backendUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -45,12 +47,12 @@ onMounted(() => {
 </script>
 <template>
   <div>
-    <h1>Product List</h1>
+    <h1>Product List (v1)</h1>
     <ul>
       <li v-for="product in products" :key="product.id">
         <p>{{ product.name }}</p>
         <p>{{ product.description }}</p>
-        <p>Price: ${{ product.price }}</p>
+        <p>Price: ${{ product.price }} บาท</p>
         <p>Created At: {{ product.createdAt }}</p>
         <p>Updated At: {{ product.updatedAt }}</p>
       </li>
